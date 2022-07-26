@@ -1,6 +1,8 @@
 <template>
   <div class="flex container">
+    <BaseLoading v-if="loading" />
     <BaseCard 
+        v-else
         v-for="(album, i) in albumList" 
         :key="i" 
         :album="album" 
@@ -11,26 +13,36 @@
 <script>
 import BaseCard from "../components/BaseCard.vue";
 import axios from "axios";
+import BaseLoading from "../components/BaseLoading.vue"
 
 export default {
   components: {
     BaseCard,
+    BaseLoading,
   },
   data() {
     return {
+      loading: false,
       api: "https://flynn.boolean.careers/exercises/api/array/music",
       albumList: [],
     };
   },
   methods: {
     getAlbums() {
+      this.loading= true;
       return axios
         .get(this.api)
         .then((res) => {
           this.albumList = res.data.response;
           console.log(res.data);
+          this.loading= false;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          })
+        .then(() => {
+          this.loading= false;
+        });
     },
   },
   mounted() {
