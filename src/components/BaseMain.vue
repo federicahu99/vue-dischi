@@ -1,30 +1,33 @@
 <template>
-    <div class="flex">
-        <figure v-for="album in albumList" :key="album.title"> 
-            <Card />
-        </figure>
+    <div class="flex"> 
+        <BaseCard v-for="album in albumList" 
+        :key="album.poster" 
+        :album="album"/>
     </div>
 </template>
 
 <script>
-import Card from '../components/BaseCard'
+import BaseCard from '../components/BaseCard.vue'
+import axios from 'axios'
+
 export default {
      components: {
-     Card,
-  },
+     BaseCard,
+
+    },
      data() {
     return {
         api: 'https://flynn.boolean.careers/exercises/api/array/music',
         albumList: [],
         }
     }, methods: {
-        getalbums(){
+        getAlbums(){
             return axios.get(this.api)
             .then(res => this.albumList(res.data))
             .catch(err => console.log(err))
         }
     }, mounted(){
-        this.getalbums()
+        this.getAlbums()
     }
 }
 
