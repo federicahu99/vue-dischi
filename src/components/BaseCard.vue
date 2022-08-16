@@ -22,6 +22,7 @@ export default {
 .single-card {
   display: flex;
   flex-direction: column;
+  flex-basis: calc(100% / 5 - 40px);
 
   img {
     object-fit: cover;
